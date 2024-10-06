@@ -1,7 +1,7 @@
-document.getElementById('scrape-form').addEventListener('submit', async function(event) {
+document.getElementById('scrape-form').addEventListener('submit', async function (event) {
     event.preventDefault();  // Prevent page refresh
 
-    const url = document.getElementById('url').value;
+    const url = document.getElementById('url').value.trim(); // Trim whitespace
     const loadingIndicator = document.getElementById('loading');
     const resultsDiv = document.getElementById('results');
 
@@ -9,6 +9,14 @@ document.getElementById('scrape-form').addEventListener('submit', async function
     resultsDiv.innerHTML = '';  // Clear previous results
 
     try {
+        // Validate URL format
+        if (!url || !(url.startsWith('http://') || url.startsWith('https://'))) {
+            displayError('Please enter a valid URL starting with http:// or https://');
+            loadingIndicator.style.display = 'none';  // Hide loading
+            return;
+        }
+
+        // Send POST request to the backend with the URL
         const response = await fetch('/scrape', {
             method: 'POST',
             headers: {
