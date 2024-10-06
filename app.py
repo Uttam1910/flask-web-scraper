@@ -15,10 +15,10 @@ def index():
 @app.route('/scrape', methods=['POST'])
 def scrape():
     # Get URL from the frontend form
-    url = request.json.get('url')  # Changed to match the JS fetch request
+    url = request.json.get('url')  # Match the JS fetch request
 
     # Validate URL (basic validation)
-    if not url.startswith('http://') and not url.startswith('https://'):
+    if not url or not url.startswith(('http://', 'https://')):
         logging.warning("Invalid URL provided by user.")
         return jsonify({'error': 'Invalid URL. Please provide a valid URL starting with http:// or https://'}), 400
 
@@ -27,7 +27,8 @@ def scrape():
     }
 
     try:
-        response = requests.get(url, headers=headers)
+        # Request with a timeout for better control
+        response = requests.get(url, headers=headers, timeout=10)
 
         # Check if the request was successful
         if response.status_code != 200:
@@ -55,6 +56,14 @@ def scrape():
 
         logging.info(f'Successfully scraped {len(products)} products.')
         return jsonify({'products': products})
+
+    except requests.exceptions.Timeout:
+        logging.error("The request timed out")
+        return jsonify({'error': 'The request timed out. Please try again later.'}), 500
+
+    except requests.exceptions.ConnectionError:
+        logging.error("Connection error")
+        return jsonify({'error': 'Failed to connect. Check the URL or your internet connection.'}), 500
 
     except requests.exceptions.RequestException as e:
         logging.error(f'RequestException: {str(e)}')

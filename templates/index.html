@@ -13,7 +13,9 @@
             <input type="text" id="url" placeholder="Enter e-commerce URL" required>
             <button type="submit">Scrape</button>
         </form>
-        <div id="results"></div>
+
+        <div id="loading" style="display:none;">Loading...</div> <!-- Loading indicator -->
+        <div id="results"></div> <!-- Results will be displayed here -->
     </div>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>

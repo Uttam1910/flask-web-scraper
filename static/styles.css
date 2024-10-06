@@ -1,4 +1,3 @@
-/* styles.css */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
@@ -46,6 +45,13 @@ button {
 
 button:hover {
     background-color: #218838;
+}
+
+#loading {
+    text-align: center;
+    color: #333;
+    font-size: 18px;
+    margin-top: 10px;
 }
 
 #results {
