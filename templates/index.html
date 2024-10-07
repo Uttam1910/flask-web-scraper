@@ -15,7 +15,11 @@
         </form>
 
         <div id="loading" style="display:none;">Loading...</div> <!-- Loading indicator -->
+        <div id="error-message" style="display:none;"></div> <!-- Error message display -->
         <div id="results"></div> <!-- Results will be displayed here -->
+        <div id="download-link" style="display:none; margin-top: 20px;">
+            <a href="#" id="csv-download" download="products.csv">Download CSV</a>
+        </div>
     </div>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
